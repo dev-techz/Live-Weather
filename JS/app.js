@@ -51,4 +51,21 @@ cityForm.addEventListener('submit',async (event) => {
 
     updateUI(city,cityWeather);
     
-})
+    // Saving City 
+    localStorage.setItem('savedCity', city);
+});
+
+// retriving saved city and displaying the data
+if (localStorage.getItem('savedCity')) {
+
+    cityWeather = undefined;
+    const run = async () => {
+        await getCityCode(`${localStorage.getItem('savedCity')}`)
+        .then(data => getWeather(data))
+        .then(data => cityWeather = data)
+        .catch();
+        updateUI(localStorage.getItem('savedCity'), cityWeather);
+        console.log(localStorage.getItem('savedCity'));
+    };
+    run();
+};
